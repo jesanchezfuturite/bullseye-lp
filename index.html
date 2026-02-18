@@ -164,7 +164,7 @@
             font-size: 1.8rem;
         }
 
-        /* --- NUEVO PROCESO (VISUAL) --- */
+        /* --- PROCESO (VISUAL) --- */
         .process-card {
             background: white;
             border-radius: 10px;
@@ -209,7 +209,7 @@
             z-index: 2;
         }
         .process-body {
-            padding: 2.5rem 1.5rem 1.5rem 1.5rem; /* Padding top extra para el badge */
+            padding: 2.5rem 1.5rem 1.5rem 1.5rem;
         }
         .process-title {
             font-weight: 700;
@@ -240,19 +240,77 @@
             margin-right: 1.5rem;
         }
 
-        /* --- CLIENTES --- */
-        .client-logo {
-            filter: grayscale(100%);
-            opacity: 0.6;
-            transition: all 0.3s;
-            max-width: 120px;
-            margin: 1rem;
+        /* --- NUEVO SLIDER DE CLIENTES (CSS) --- */
+        .slider-container {
+            overflow: hidden;
+            background: white;
+            padding: 20px 0;
+            position: relative;
+            width: 100%;
         }
-        .client-logo:hover {
-            filter: grayscale(0%);
-            opacity: 1;
+        
+        /* Sombras laterales para efecto "Fade" */
+        .slider-container::before,
+        .slider-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none; /* Evita que cubra los logos */
+        }
+        .slider-container::before {
+            left: 0;
+            background: linear-gradient(to right, white, transparent);
+        }
+        .slider-container::after {
+            right: 0;
+            background: linear-gradient(to left, white, transparent);
         }
 
+        .slider-track {
+            display: flex;
+            width: max-content;
+            animation: scroll 35s linear infinite;
+        }
+
+        .client-logo {
+            width: 180px;
+            height: 100px;
+            object-fit: contain;
+            margin: 0 40px;
+            filter: grayscale(100%);
+            opacity: 1; /* CORRECCIÓN: Opacidad total */
+            transition: all 0.3s ease;
+        }
+
+        .client-logo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.2rem; }
+            .section-title { font-size: 2rem; }
+            .process-card { margin-bottom: 1.5rem; }
+            
+            .client-logo {
+                width: 120px;
+                margin: 0 20px;
+            }
+            .slider-container::before,
+            .slider-container::after {
+                width: 50px;
+            }
+        }
+        
         /* --- FORMULARIO --- */
         .contact-section {
             background-color: var(--bullseye-black);
@@ -276,13 +334,6 @@
         }
         .invalid-feedback {
             font-size: 0.85em;
-        }
-
-        /* Responsive Fixes */
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.2rem; }
-            .section-title { font-size: 2rem; }
-            .process-card { margin-bottom: 1.5rem; }
         }
     </style>
 </head>
@@ -499,9 +550,12 @@
     </section>
 
     <section id="clientes">
-        <div class="container text-center">
-            <h4 class="mb-5 text-uppercase text-muted" style="letter-spacing: 2px;">Clientes que confían en nuestro servicio</h4>
-            <div class="d-flex justify-content-center flex-wrap align-items-center">
+        <div class="container text-center mb-4">
+            <h4 class="text-uppercase text-muted" style="letter-spacing: 2px;">Clientes que confían en nuestro servicio</h4>
+        </div>
+        
+        <div class="slider-container">
+            <div class="slider-track">
                 <img src="img/bullseye-cliente-01.webp" class="client-logo" alt="BAT">
                 <img src="img/bullseye-cliente-02.webp" class="client-logo" alt="MPV-MGMT">
                 <img src="img/bullseye-cliente-03.webp" class="client-logo" alt="Gruma">
@@ -512,7 +566,17 @@
                 <img src="img/bullseye-cliente-08.webp" class="client-logo" alt="Novaliv">
                 <img src="img/bullseye-cliente-09.webp" class="client-logo" alt="MicheMix">
                 <img src="img/bullseye-cliente-10.webp" class="client-logo" alt="AR Multiservicios">
-
+                
+                <img src="img/bullseye-cliente-01.webp" class="client-logo" alt="BAT">
+                <img src="img/bullseye-cliente-02.webp" class="client-logo" alt="MPV-MGMT">
+                <img src="img/bullseye-cliente-03.webp" class="client-logo" alt="Gruma">
+                <img src="img/bullseye-cliente-04.webp" class="client-logo" alt="stella tech">
+                <img src="img/bullseye-cliente-05.webp" class="client-logo" alt="Tuk">
+                <img src="img/bullseye-cliente-06.webp" class="client-logo" alt="ItNovation">
+                <img src="img/bullseye-cliente-07.webp" class="client-logo" alt="Gas Sultana">
+                <img src="img/bullseye-cliente-08.webp" class="client-logo" alt="Novaliv">
+                <img src="img/bullseye-cliente-09.webp" class="client-logo" alt="MicheMix">
+                <img src="img/bullseye-cliente-10.webp" class="client-logo" alt="AR Multiservicios">
             </div>
         </div>
     </section>

@@ -639,14 +639,14 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="nombre" class="form-label">Nombre y Apellido</label>
-                                        <input type="text" class="form-control" id="nombre" required>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
                                         <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="empresa" class="form-label">Empresa</label>
-                                        <input type="text" class="form-control" id="empresa" required>
+                                        <input type="text" class="form-control" id="empresa" name="empresa" required>
                                         <div class="invalid-feedback">Por favor ingresa el nombre de tu empresa.</div>
                                     </div>
                                 </div>
@@ -656,14 +656,14 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Correo Electrónico</label>
-                                        <input type="email" class="form-control" id="email" required>
+                                        <input type="email" class="form-control" id="email" name="correo" required>
                                         <div class="invalid-feedback">Ingresa un correo válido.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="telefono" class="form-label">Número de Teléfono</label>
-                                        <input type="tel" class="form-control" id="telefono" required pattern="[0-9]{10}">
+                                        <input type="tel" class="form-control" id="telefono" name="telefono" required pattern="[0-9]{10}">
                                         <div class="invalid-feedback">Ingresa un teléfono de 10 dígitos.</div>
                                     </div>
                                 </div>
@@ -671,7 +671,7 @@
 
                             <div class="mb-4">
                                 <label for="perfil" class="form-label">¿Qué tipo de perfil buscas?</label>
-                                <select class="form-select" id="perfil" required>
+                                <select class="form-select" id="perfil" name="perfil" required>
                                     <option value="" selected disabled>Selecciona una opción...</option>
                                     <option value="Operativo">Perfil Operativo</option>
                                     <option value="Administrativo">Perfil Administrativo</option>
@@ -720,24 +720,28 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            
+            // Manejo de UTM (se calcula antes del envío)
+            var data_utm = {};
+            const urlParams = new URLSearchParams(window.location.search);
+            ['utm_id','utm_campaign','utm_source','utm_medium','utm_content','utm_term'].forEach(p => {
+                const v = urlParams.get(p);
+                if (v) data_utm[p] = v;
+            });
+            console.log('UTM params:', data_utm);
+
             // 1. Smooth Scroll para todos los anclas
             document.querySelectorAll('a.scroll-link[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
-                    
                     if (targetSection) {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 });
             });
 
-            // 2. Validación de Formulario y Simulación de Envío
+            // 2. Validación de Formulario y Envío usando fetch (sin jQuery)
             const form = document.getElementById('contactForm');
             const submitBtn = document.getElementById('submitBtn');
 
@@ -746,16 +750,56 @@
                 event.stopPropagation();
 
                 if (form.checkValidity()) {
-                    // Si es válido, simular envío
-                    const originalText = submitBtn.innerText;
+                    const nombre = form.querySelector("input[name='nombre']").value.trim();
+                    const correo = form.querySelector("input[name='correo']").value.trim();
+                    const telefono = form.querySelector("input[name='telefono']").value.trim();
+                    const empresa = form.querySelector("input[name='empresa']").value.trim();
+                    const perfil = form.querySelector("select[name='perfil']").value;
+
+                    const data = {
+                        nombre: nombre,
+                        correo: correo,
+                        telefono: telefono,
+                        empresa: empresa,
+                        perfil: perfil,
+                        utm_id: data_utm.utm_id || "",
+                        utm_campaign: data_utm.utm_campaign || "",
+                        utm_source: data_utm.utm_source || "",
+                        utm_medium: data_utm.utm_medium || "",
+                        utm_content: data_utm.utm_content || "",
+                        utm_term: data_utm.utm_term || "",
+                        api_key: "Q2xpZW50ZUlEOjo0MTQ=",
+                        to: ["alvaro@bullseyemexico.com", "leads@futurite.net"],
+                        origen: "https://reclutamiento.bullseyemexico.com/"
+                    };
+
+                    // Deshabilitar botón y mostrar spinner
                     submitBtn.disabled = true;
+                    const originalHTML = submitBtn.innerHTML;
                     submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
 
-                    // Simulación de espera de red (2 segundos)
-                    setTimeout(() => {
-                        // Redirección Exitosa
-                        window.location.href = 'gracias-bullseye.html';
-                    }, 2000);
+                    // Envío con fetch (JSON). Revisar CORS en el servidor destino.
+                    fetch('https://futurite.ongoing.mx/api/leads/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    }).then(response => response.json())
+                      .then(result => {
+                        console.log('Respuesta API:', result);
+                        if (result && result.success) {
+                            form.reset();
+                            window.location.href = 'gracias.html';
+                        } else {
+                            alert('Ha ocurrido un error al enviar la forma de contacto, intenta más tarde');
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalHTML;
+                        }
+                      }).catch(err => {
+                        console.error('Error envío:', err);
+                        alert('No fue posible enviar la solicitud. Intenta más tarde.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalHTML;
+                      });
 
                 } else {
                     // Si no es válido, mostrar errores de Bootstrap

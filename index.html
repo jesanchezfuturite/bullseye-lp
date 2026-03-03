@@ -290,7 +290,9 @@
         .slider-track {
             display: flex;
             width: max-content;
-            animation: scroll 35s linear infinite;
+            /* contenido duplicado para bucle continuo */
+            /* duracion duplicada (70s) para mantener velocidad original */
+            animation: scroll 70s linear infinite;
         }
 
         .client-logo {
@@ -310,7 +312,9 @@
 
         @keyframes scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            /* ahora se desplaza toda la anchura de la pista (100%)
+               porque hemos duplicado los logos en el HTML. */
+            100% { transform: translateX(-100%); }
         }
 
         /* Responsive Fixes */
@@ -521,9 +525,6 @@
         
         <div class="slider-container">
             <div class="slider-track">
-                <img src="img/logos/bullseye-cliente-09.webp" class="client-logo" alt="MicheMix">
-                <img src="img/logos/bullseye-cliente-10.webp" class="client-logo" alt="AR Multiservicios">
-
                 <img src="img/logos/bullseye-cliente-01.webp" class="client-logo" alt="BAT">
                 <img src="img/logos/bullseye-cliente-02.webp" class="client-logo" alt="MPV-MGMT">
                 <img src="img/logos/bullseye-cliente-03.webp" class="client-logo" alt="Gruma">
@@ -533,10 +534,40 @@
                 <img src="img/logos/bullseye-cliente-07.webp" class="client-logo" alt="Gas Sultana">
                 <img src="img/logos/bullseye-cliente-08.webp" class="client-logo" alt="Novaliv">
                 <img src="img/logos/bullseye-cliente-09.webp" class="client-logo" alt="MicheMix">
-                <img src="img/logos/bullseye-cliente-10.webp" class="client-logo" alt="AR Multiservicios">       
-
+                <img src="img/logos/bullseye-cliente-10.webp" class="client-logo" alt="AR Multiservicios">
+                <img src="img/logos/bullseye-cliente-11.webp" class="client-logo" alt="BYDSA">
+                <img src="img/logos/bullseye-cliente-12.webp" class="client-logo" alt="GENTHERM">
+                <img src="img/logos/bullseye-cliente-13.webp" class="client-logo" alt="greenpaper">
+                <img src="img/logos/bullseye-cliente-14.webp" class="client-logo" alt="Grupo AFAL">
+                <img src="img/logos/bullseye-cliente-15.webp" class="client-logo" alt="Guntner">
+                <img src="img/logos/bullseye-cliente-16.webp" class="client-logo" alt="Sigma foodservice">
+                <img src="img/logos/bullseye-cliente-17.webp" class="client-logo" alt="TEMPEL">
+                <img src="img/logos/bullseye-cliente-18.webp" class="client-logo" alt="TOKAI RIKA">
+                <img src="img/logos/bullseye-cliente-19.webp" class="client-logo" alt="TOPBAND">
+                <img src="img/logos/bullseye-cliente-20.webp" class="client-logo" alt="KOBREX"> 
+                <img src="img/logos/bullseye-cliente-21.webp" class="client-logo" alt="viakable">
+                <!-- repetimos los mismos logos para poder movernos al 100% sin salto -->
                 <img src="img/logos/bullseye-cliente-01.webp" class="client-logo" alt="BAT">
                 <img src="img/logos/bullseye-cliente-02.webp" class="client-logo" alt="MPV-MGMT">
+                <img src="img/logos/bullseye-cliente-03.webp" class="client-logo" alt="Gruma">
+                <img src="img/logos/bullseye-cliente-04.webp" class="client-logo" alt="stella tech">
+                <img src="img/logos/bullseye-cliente-05.webp" class="client-logo" alt="Tuk">
+                <img src="img/logos/bullseye-cliente-06.webp" class="client-logo" alt="ItNovation">
+                <img src="img/logos/bullseye-cliente-07.webp" class="client-logo" alt="Gas Sultana">
+                <img src="img/logos/bullseye-cliente-08.webp" class="client-logo" alt="Novaliv">
+                <img src="img/logos/bullseye-cliente-09.webp" class="client-logo" alt="MicheMix">
+                <img src="img/logos/bullseye-cliente-10.webp" class="client-logo" alt="AR Multiservicios">
+                <img src="img/logos/bullseye-cliente-11.webp" class="client-logo" alt="BYDSA">
+                <img src="img/logos/bullseye-cliente-12.webp" class="client-logo" alt="GENTHERM">
+                <img src="img/logos/bullseye-cliente-13.webp" class="client-logo" alt="greenpaper">
+                <img src="img/logos/bullseye-cliente-14.webp" class="client-logo" alt="Grupo AFAL">
+                <img src="img/logos/bullseye-cliente-15.webp" class="client-logo" alt="Guntner">
+                <img src="img/logos/bullseye-cliente-16.webp" class="client-logo" alt="Sigma foodservice">
+                <img src="img/logos/bullseye-cliente-17.webp" class="client-logo" alt="TEMPEL">
+                <img src="img/logos/bullseye-cliente-18.webp" class="client-logo" alt="TOKAI RIKA">
+                <img src="img/logos/bullseye-cliente-19.webp" class="client-logo" alt="TOPBAND">
+                <img src="img/logos/bullseye-cliente-20.webp" class="client-logo" alt="KOBREX"> 
+                <img src="img/logos/bullseye-cliente-21.webp" class="client-logo" alt="viakable">
             </div>
         </div>
     </section>
